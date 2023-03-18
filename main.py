@@ -4,6 +4,7 @@ from flask_bootstrap import Bootstrap
 from notification_manager import NotificationManager
 from flask_sqlalchemy import SQLAlchemy
 import datetime
+import os
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 
@@ -14,7 +15,8 @@ app.config['SECRET_KEY'] = 'rusyasuper_likes_babyes'
 Bootstrap(app)
 
 #CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///arina_baza.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+# postgresql://arina_baza_user:Hrph8SpLZV4f8UW14Uru6LD6quhpXe1F@dpg-cgas38d269v4icvo88bg-a.frankfurt-postgres.render.com/arina_baza
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
