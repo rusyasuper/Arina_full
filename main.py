@@ -1,4 +1,5 @@
 import flask
+import psycopg2
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_bootstrap import Bootstrap
 from notification_manager import NotificationManager
@@ -69,7 +70,7 @@ def send_sms():
         'Описание': text,
         'Тип': 'Одиночная съемка',
     }
-    flaers = db.session.query(Buyer).filter((Buyer.number == number))
+    flaers = db.session.query(Buyer).filter(Buyer.number == number).all()
     if not flaers:
         now = datetime.datetime.today()
         nowwow = now.strftime('%m/%d/%y')
@@ -94,12 +95,13 @@ def send_sms2():
         'Описание': text,
         'Тип': 'Съемка мероприятий',
     }
-    flaers = db.session.query(Buyer).filter((Buyer.number == number))
+    flaers = db.session.query(Buyer).filter(Buyer.number == number).all()
     if not flaers:
         now = datetime.datetime.today()
         nowwow = now.strftime('%m/%d/%y')
         buyer = Buyer(name=name, number=number, date=nowwow, type_of_service='Мероприятия')
         db.session.add(buyer)
+        print(db.session.query(Buyer).all())
         db.session.commit()
     else:
         flash("Спасибо, что вернулись к нам! Мы очень рады постоянным клиентам:)", 'success')
@@ -119,7 +121,7 @@ def send_sms3():
         'Описание': text,
         'Тип': 'Прочее',
     }
-    flaers = db.session.query(Buyer).filter((Buyer.number == number))
+    flaers = db.session.query(Buyer).filter(Buyer.number == number).all()
     if not flaers:
         now = datetime.datetime.today()
         nowwow = now.strftime('%m/%d/%y')
